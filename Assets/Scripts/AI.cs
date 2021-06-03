@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class AI : Agent
 {
-    private float wanderDistance = 5f;
-    private float wanderTimer = 0f;
-    private float wanderTimerInterval = 2f;
-
     private Entity current_target;
     // Start is called before the first frame update
     void Start()
@@ -32,6 +28,10 @@ public class AI : Agent
         }
     }
 
+    private float wanderDistance = 8f;
+    private float wanderTimer = 0f;
+    private float wanderTimerInterval = 2f;
+
     private void Wander()
     {
         wanderTimer -= Time.deltaTime;
@@ -39,7 +39,7 @@ public class AI : Agent
         if (wanderTimer <= 0)
         {
             // Using this method instead of insideUnitCircle because we want to randomize x and z instead of x and y.
-            destination = new Vector3(Random.value, 0, Random.value) * wanderDistance;
+            destination = transform.position + new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)) * wanderDistance;
             wanderTimer = wanderTimerInterval;
         }
     }
