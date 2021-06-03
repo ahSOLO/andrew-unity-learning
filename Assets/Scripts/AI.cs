@@ -5,6 +5,13 @@ using UnityEngine;
 public class AI : Agent
 {
     private Entity current_target;
+
+    private float wanderDistance = 8f;
+    private float wanderTimer = 0f;
+    private float wanderTimerInterval = 2f;
+
+    private float visionDistance = 10f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,20 +24,28 @@ public class AI : Agent
         if(current_target == null)
         {
             Wander();
+            SearchForEnemy();
         }
     }
 
     private void SearchForEnemy()
     {
-        for(int i = 0; i < 10; i++)
-        {
+        var start = -55f;
+        var end = 55f;
+        var rays = 10;
 
+        for(int i = 0; i < rays; i++)
+        {
+            RaycastHit hit;
+            var rotation = start + (end - start) * (i + 1) / rays;
+            Physics.Raycast(transform.position, Quaternion.Euler(0f, rotation, 0f) * transform.forward, out hit, visionDistance);
+
+            if (hit.collider && hit.collider.tag == "Player")
+            {
+                Debug.Log("Player Found");
+            }
         }
     }
-
-    private float wanderDistance = 8f;
-    private float wanderTimer = 0f;
-    private float wanderTimerInterval = 2f;
 
     private void Wander()
     {
