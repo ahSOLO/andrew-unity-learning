@@ -15,14 +15,7 @@ public class Agent : Entity
         destination = transform.position;
     }
 
-    private void FixedUpdate()
-    {
-        var diff = destination - transform.position;
-        var direction = diff.normalized;
-        Turn(direction);
-        if (diff.sqrMagnitude > 2)
-            Move(direction);
-    }
+
 
     // Update is called once per frame
     void Update()
