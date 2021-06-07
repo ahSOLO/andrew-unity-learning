@@ -14,7 +14,6 @@ public class AI : Agent
 
     EViewConeStage view_stage = EViewConeStage.A;
 
-
     private float last_attack_time = 0;
     private float attack_delay = 1;
     // Start is called before the first frame update
@@ -30,7 +29,7 @@ public class AI : Agent
         {
             Wander();
             //SearchForEnemy();
-            OptimizedSearchForPlayer(110, 10);
+            SearchForPlayer(110, 10);
         }
         else
         {
@@ -47,6 +46,7 @@ public class AI : Agent
             Move(direction);
     }
 
+    /*
     private void SearchForEnemy()
     {
         var start = -55f;
@@ -69,36 +69,28 @@ public class AI : Agent
 
 
         }
-    }
+    } 
+    */
 
-
-    private void OptimizedSearchForPlayer(float FOV, int rays)
+    private void SearchForPlayer(float FOV, int rays)
     {
         var start = -FOV/2;
         if(view_stage == EViewConeStage.A)
         {
             start = -FOV / 2;
-            Debug.Log("A");
         }
         else if(view_stage == EViewConeStage.B)
         {
             start = -FOV / 2 + FOV / rays * 0.25f;
-            Debug.Log("B");
-
         }
         else if(view_stage == EViewConeStage.C)
         {
             start = -FOV / 2 + FOV / rays * 0.5f;
-            Debug.Log("C");
         }
         else
         {
             start = -FOV / 2 + FOV / rays * 0.75f;
-            Debug.Log("D");
-
         }
-
-
 
         for (int i = 0; i < rays; i++)
         {
@@ -131,8 +123,6 @@ public class AI : Agent
 
 
     }
-
-
 
     private void Wander()
     {
