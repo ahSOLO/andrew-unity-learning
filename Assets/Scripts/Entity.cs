@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
-    protected float health = 100;
+    protected float health;
+    protected float maxHealth = 100f;
     protected EFaction faction = EFaction.neutral;
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
-        
+        health = maxHealth;
     }
 
     // Update is called once per frame

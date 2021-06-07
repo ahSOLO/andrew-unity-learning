@@ -8,9 +8,9 @@ public class Agent : Entity
     protected float turn_speed = 360f;
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-
+        base.Start();
     }
 
     // Update is called once per frame

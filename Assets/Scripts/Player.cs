@@ -6,14 +6,16 @@ using UnityEngine.UI;
 public class Player : Agent
 {
     public Text health_text;
+    public Image healthBarFill;
 
     private Vector3 direction = Vector3.zero;
 
     public GameObject gimbal;
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         gimbal = GameObject.FindGameObjectWithTag("Gimbal");
     }
 
@@ -42,7 +44,10 @@ public class Player : Agent
 
     public override void TakeDamage(float dmg)
     {
+        Debug.Log(health);
         base.TakeDamage(dmg);
+        Debug.Log(health);
         health_text.text = $"Health : {health}";
+        healthBarFill.fillAmount = health / maxHealth;
     }
 }
