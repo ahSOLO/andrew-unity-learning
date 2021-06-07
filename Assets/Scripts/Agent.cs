@@ -26,10 +26,10 @@ public class Agent : Entity
     protected void Move(Vector3 direction)
     {
         // Do not move vertically
-        // var moveDir = new Vector3(direction.x, 0f, direction.z) * movement_speed * Time.fixedDeltaTime;
-        // transform.Translate(moveDir, Space.World);
+        var moveDir = new Vector3(direction.x, 0f, direction.z) * movement_speed * Time.fixedDeltaTime;
+        transform.Translate(moveDir, Space.World);
 
-        transform.Translate(transform.forward * movement_speed * Time.fixedDeltaTime, Space.World);
+        //transform.Translate(transform.forward * movement_speed * Time.fixedDeltaTime, Space.World);
     }
 
     protected void Turn(Vector3 direction)
