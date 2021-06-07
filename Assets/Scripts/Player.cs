@@ -6,16 +6,31 @@ using UnityEngine.UI;
 public class Player : Agent
 {
     public Text health_text;
+
+    private Vector3 direction = Vector3.zero;
+
+    public GameObject gimbal;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        gimbal = GameObject.FindGameObjectWithTag("Gimbal");
+    }
+
+    private void FixedUpdate()
+    {
+        Move(direction);
+        Turn(direction);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        // Convert input to direction - should this be moved to a separate component?
+        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+        {
+            direction = Quaternion.Euler(0f, gimbal.transform.rotation.eulerAngles.y, 0f) * new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
+        }
     }
 
     public override void TakeDamage(float dmg)
