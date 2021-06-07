@@ -5,17 +5,13 @@ using UnityEngine;
 public class Agent : Entity
 {
     protected float movement_speed = 4f;
-    protected float turn_speed = 270f;
-
-    protected Vector3 destination;
+    protected float turn_speed = 360f;
 
     // Start is called before the first frame update
     void Start()
     {
-        destination = transform.position;
+
     }
-
-
 
     // Update is called once per frame
     void Update()
@@ -25,10 +21,12 @@ public class Agent : Entity
 
     protected void Move(Vector3 direction)
     {
+        // Option 1: Move in the given direction
         // Do not move vertically
         var moveDir = new Vector3(direction.x, 0f, direction.z) * movement_speed * Time.fixedDeltaTime;
         transform.Translate(moveDir, Space.World);
 
+        // Option 2: Always move forward -- rely on the Turn function for rotations
         //transform.Translate(transform.forward * movement_speed * Time.fixedDeltaTime, Space.World);
     }
 

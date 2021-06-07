@@ -16,10 +16,13 @@ public class AI : Agent
 
     private float last_attack_time = 0;
     private float attack_delay = 1;
+
+    protected Vector3 destination;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        destination = transform.position;
     }
 
     // Update is called once per frame
@@ -39,6 +42,7 @@ public class AI : Agent
 
     private void FixedUpdate()
     {
+        // Convert destination into a move and turn direction
         var diff = destination - transform.position;
         var direction = diff.normalized;
         Turn(direction);
