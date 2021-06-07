@@ -45,8 +45,8 @@ public class AI : Agent
         // Convert destination into a move and turn direction
         var diff = destination - transform.position;
         var direction = diff.normalized;
-        Turn(direction);
-        if (diff.sqrMagnitude > 2)
+        if (diff.sqrMagnitude > 1)
+            Turn(direction);
             Move(direction);
     }
 

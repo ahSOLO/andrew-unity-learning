@@ -19,8 +19,11 @@ public class Player : Agent
 
     private void FixedUpdate()
     {
-        Move(direction);
-        Turn(direction);
+        if (direction != Vector3.zero)
+        {
+            Move(direction);
+            Turn(direction);
+        }
     }
 
     // Update is called once per frame
@@ -30,6 +33,10 @@ public class Player : Agent
         if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
             direction = Quaternion.Euler(0f, gimbal.transform.rotation.eulerAngles.y, 0f) * new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
+        }
+        else
+        {
+            direction = Vector3.zero;
         }
     }
 
