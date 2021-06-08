@@ -42,11 +42,19 @@ public class Player : Agent
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "SpawnTrigger")
+        {
+            // Do not spawn more than one enemy per 2 seconds
+            if (GameManager.gM.lastSpawnTime + 2f < Time.timeSinceLevelLoad)
+                GameManager.SpawnEntityInArea(GameManager.gM.enemy, other.transform.position, 10f);
+        }
+    }
+
     public override void TakeDamage(float dmg)
     {
-        Debug.Log(health);
         base.TakeDamage(dmg);
-        Debug.Log(health);
         health_text.text = $"Health : {health}";
         healthBarFill.fillAmount = health / maxHealth;
     }
