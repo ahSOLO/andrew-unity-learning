@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager gM; // Singleton Var
     public GameObject enemy;
+    public GameObject deathParticle;
     public float lastSpawnTime;
 
     private void OnEnable()

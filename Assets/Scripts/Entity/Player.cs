@@ -17,6 +17,7 @@ public class Player : Agent
     {
         base.Start();
         gimbal = GameObject.FindGameObjectWithTag("Gimbal");
+        movement_speed = 6f;
     }
 
     private void FixedUpdate()
@@ -29,8 +30,10 @@ public class Player : Agent
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
+        base.Update();
+        
         // Convert input to direction - should this be moved to a separate component?
         if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
@@ -39,6 +42,11 @@ public class Player : Agent
         else
         {
             direction = Vector3.zero;
+        }
+
+        if (Input.GetAxisRaw("Fire1") == 1)
+        {
+            rightHandAction();
         }
     }
 

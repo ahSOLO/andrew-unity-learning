@@ -14,9 +14,6 @@ public class AI : Agent
 
     EViewConeStage view_stage = EViewConeStage.A;
 
-    private float last_attack_time = 0;
-    private float attack_delay = 1;
-
     protected Vector3 destination;
 
     // Start is called before the first frame update
@@ -27,8 +24,9 @@ public class AI : Agent
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
+        base.Update(); 
         if(current_target == null)
         {
             Wander();
@@ -45,7 +43,7 @@ public class AI : Agent
     {
         // Convert destination into a move and turn direction
         var diff = destination - transform.position;
-        if (diff.sqrMagnitude > 1)
+        if (diff.sqrMagnitude > 1f)
         {
             var direction = diff.normalized;
             Turn(direction);
@@ -148,11 +146,7 @@ public class AI : Agent
         destination = current_target.transform.position;
         if(Vector3.Distance(current_target.transform.position, transform.position) < 2f)
         {
-            if(Time.timeSinceLevelLoad > last_attack_time + attack_delay)
-            {
-                current_target.TakeDamage(10);
-                last_attack_time = Time.timeSinceLevelLoad;
-            }
+            rightHandAction();
         }
     }
 

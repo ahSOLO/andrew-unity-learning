@@ -7,6 +7,10 @@ public class Agent : Entity
     protected float movement_speed = 4f;
     protected float turn_speed = 360f;
 
+    public Equipment rightHandEquip;
+    public Animator rightHandEquipAnim;
+    public float rightHandCooldownTimer;
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -14,9 +18,13 @@ public class Agent : Entity
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
-        
+        rightHandCooldownTimer -= Time.deltaTime;
+        if (health == 0)
+        {
+            Death();
+        }
     }
 
     protected void Move(Vector3 direction)
@@ -47,9 +55,23 @@ public class Agent : Entity
 
     }
 
-    protected void Attack()
+    protected void rightHandAction()
     {
-
+        if (rightHandCooldownTimer <= 0 && rightHandEquip.equipmentType == Equipment.EEquipmentType.Weapon)
+        {
+            Attack(rightHandEquip, rightHandEquipAnim);
+            rightHandCooldownTimer = rightHandEquip.cooldown;
+        }
     }
 
+    protected void Attack(Equipment weapon, Animator anim)
+    {
+        anim.SetTrigger("Attack");
+    }
+
+    public virtual void Death()
+    {
+        GameManager.SpawnEntity(GameManager.gM.deathParticle, transform.position);
+        Destroy(gameObject);
+    }
 }

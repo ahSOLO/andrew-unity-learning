@@ -5,8 +5,9 @@ using UnityEngine;
 public class Entity : MonoBehaviour
 {
     protected float health;
-    protected float maxHealth = 100f;
+    [SerializeField] protected float maxHealth = 100f;
     protected EFaction faction = EFaction.neutral;
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
@@ -14,9 +15,18 @@ public class Entity : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         
+    }
+
+    protected virtual void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Weapon")
+        {
+            // This feels like an expensive call -- any way I can prevent it?
+            TakeDamage(other.GetComponentInParent<Weapon>().damage);
+        }
     }
 
     public virtual void TakeDamage(float dmg)
