@@ -54,9 +54,10 @@ public class Player : Agent
     {
         if (other.tag == "SpawnTrigger")
         {
+            GameManager gM = ServiceLocator.Get<GameManager>();
             // Do not spawn more than one enemy per 2 seconds
-            if (GameManager.gM.lastSpawnTime + 2f < Time.timeSinceLevelLoad)
-                GameManager.SpawnEntityInArea(GameManager.gM.enemy, other.transform.position, 10f);
+            if (gM.lastSpawnTime + 2f < Time.timeSinceLevelLoad)
+                GameManager.SpawnEntityInArea(gM.enemy, other.transform.position, 10f);
         }
     }
 

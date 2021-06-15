@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class CameraController : IGameService
 {
     [SerializeField] GameObject gimbal;
     [SerializeField] float rotationSpeed = 270f;

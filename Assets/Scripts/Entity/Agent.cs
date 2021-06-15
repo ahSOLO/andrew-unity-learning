@@ -71,7 +71,8 @@ public class Agent : Entity
 
     public virtual void Death()
     {
-        GameManager.SpawnEntity(GameManager.gM.deathParticle, transform.position);
+        var gM = ServiceLocator.Get<GameManager>();
+        GameManager.SpawnEntity(gM.deathParticle, transform.position);
         Destroy(gameObject);
     }
 }

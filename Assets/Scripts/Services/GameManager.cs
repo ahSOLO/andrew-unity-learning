@@ -2,26 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : IGameService
 {
-    public static GameManager gM; // Singleton Var
     public GameObject enemy;
     public GameObject deathParticle;
     public float lastSpawnTime;
 
     private void OnEnable()
     {
-        // Instantiate Singleton
-        if (gM == null)
+        // Register with Service Locator
+        if (ServiceLocator.TryGet<GameManager>() != null)
         {
-            gM = this;
+            // If a GameManager is already registered, delete this one.
+            Destroy(gameObject);
         }
         else
         {
-            // Setting to inactive because destruction doesn't occur until the end of the frame.
-            gameObject.SetActive(false);
-            Destroy(gameObject);
+            ServiceLocator.Register<GameManager>(this);
         }
+
+        DontDestroyOnLoad(this);
+    }
+
+    private void OnDisable()
+    {
+        ServiceLocator.Unregister<GameManager>();
     }
 
     // Start is called before the first frame update
@@ -76,7 +81,8 @@ public class GameManager : MonoBehaviour
 
     public static GameObject SpawnEntity(GameObject spawnable, Vector3 position, Quaternion rotation)
     {
-        GameManager.gM.lastSpawnTime = Time.timeSinceLevelLoad;
+        var gM = ServiceLocator.Get<GameManager>();
+        gM.lastSpawnTime = Time.timeSinceLevelLoad;
         return Instantiate(spawnable, position, rotation);
     }
 }

@@ -24,7 +24,6 @@ public class Entity : MonoBehaviour
     {
         if (other.tag == "Weapon")
         {
-            // This feels like an expensive call -- any way I can prevent it?
             TakeDamage(other.GetComponentInParent<Weapon>().damage);
         }
     }
