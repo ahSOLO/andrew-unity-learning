@@ -15,12 +15,15 @@ public class AI : Agent
     EViewConeStage view_stage = EViewConeStage.A;
 
     protected Vector3 destination;
+    protected Vector3 lastDestination;
+    List<PathNode> path;
 
     // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
         destination = transform.position;
+        lastDestination = Vector3.zero;
     }
 
     // Update is called once per frame
@@ -50,32 +53,6 @@ public class AI : Agent
             Move(direction);
         }
     }
-
-    /*
-    private void SearchForEnemy()
-    {
-        var start = -55f;
-        var end = 55f;
-        var rays = 10;
-
-        for(int i = 0; i < rays; i++)
-        {
-            RaycastHit hit;
-            var rotation = start + (end - start) * (i + 1) / rays;
-            if (Physics.Raycast(transform.position, Quaternion.Euler(0f, rotation, 0f) * transform.forward, out hit, visionDistance))
-            {
-                if (hit.collider && hit.collider.tag == "Player")
-                {
-                    Debug.Log("Player Found");
-                    current_target = hit.transform.GetComponent<Entity>();
-                }
-            }
-            Debug.DrawLine(transform.position, transform.position + Quaternion.Euler(0f, rotation, 0f) * transform.forward * visionDistance, Color.red);
-
-
-        }
-    } 
-    */
 
     private void SearchForPlayer(float FOV, int rays)
     {
@@ -143,10 +120,32 @@ public class AI : Agent
 
     private void FollowPlayer()
     {
-        destination = current_target.transform.position;
-        if(Vector3.Distance(current_target.transform.position, transform.position) < 2f)
+        var sqrDist = Vector3.SqrMagnitude(current_target.transform.position - transform.position);
+        if (sqrDist < 4f)
         {
+            destination = current_target.transform.position;
             rightHandAction();
+        } 
+        else
+        {
+            var navGrid = ServiceLocator.Get<NavGrid>();
+            if ((lastDestination - current_target.transform.position).sqrMagnitude >= 4f)
+            {
+                path = navGrid.FindPath(transform.position, current_target.transform.position);
+                lastDestination = current_target.transform.position;
+                Debug.Log("Debug One");
+            }
+            if (path != null)
+            {
+                Debug.Log(path.Count);
+                var closestNodePos = navGrid.grid.GetWorldPosition(path[0].x, path[0].z);
+                if ((closestNodePos - transform.position).sqrMagnitude < 1.8f)
+                {
+                    path.RemoveAt(0);
+                    closestNodePos = navGrid.grid.GetWorldPosition(path[0].x, path[0].z);
+                } 
+                destination = closestNodePos;
+            }
         }
     }
 
