@@ -131,15 +131,16 @@ public class AI : Agent
             var navGrid = ServiceLocator.Get<NavGrid>();
             if ((lastDestination - current_target.transform.position).sqrMagnitude >= 4f)
             {
-                path = navGrid.FindPath(transform.position, current_target.transform.position);
-                lastDestination = current_target.transform.position;
-                Debug.Log("Debug One");
+                if (navGrid.grid.GetValue(current_target.transform.position).isWalkable != false)
+                {
+                    path = navGrid.FindPath(transform.position, current_target.transform.position);
+                    lastDestination = current_target.transform.position;
+                }
             }
             if (path != null)
             {
-                Debug.Log(path.Count);
                 var closestNodePos = navGrid.grid.GetWorldPosition(path[0].x, path[0].z);
-                if ((closestNodePos - transform.position).sqrMagnitude < 1.8f)
+                if ((closestNodePos - transform.position).sqrMagnitude < 1.5f)
                 {
                     path.RemoveAt(0);
                     closestNodePos = navGrid.grid.GetWorldPosition(path[0].x, path[0].z);

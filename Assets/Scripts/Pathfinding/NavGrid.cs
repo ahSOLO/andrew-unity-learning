@@ -36,7 +36,7 @@ public class NavGrid : IGameService
         {
             for (int z = 0; z < grid.GetLength(); z++)
             {
-                if (Physics.OverlapBox(grid.GetWorldPosition(x, z) + new Vector3(cellSize / 2, 0f, cellSize / 2), new Vector3(cellSize / 2, cellSize / 2, cellSize / 2), Quaternion.identity, LayerMask.GetMask("Wall")).Length > 0)
+                if (Physics.OverlapBox(grid.GetWorldPosition(x, z), new Vector3(cellSize / 2, cellSize / 2, cellSize / 2), Quaternion.identity, LayerMask.GetMask("Wall")).Length > 0)
                 {
                     grid.GetValue(x, z).isWalkable = false;
                     grid.TriggerGridObjectChanged(x, z);
@@ -182,10 +182,10 @@ public class NavGrid : IGameService
             currentNode = currentNode.lastNode;
         }
         path.Reverse();
-        foreach (var node in path)
-        {
-            grid.TriggerGridObjectChanged(node.x, node.z);
-        }
+        //foreach (var node in path)
+        //{
+        //    grid.TriggerGridObjectChanged(node.x, node.z);
+        //}
         return path;
     }
 

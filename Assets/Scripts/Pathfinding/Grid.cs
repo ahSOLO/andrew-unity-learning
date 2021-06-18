@@ -33,15 +33,15 @@ public class Grid<TGridObject>
             for (int z = 0; z < length; z++)
             {
                 gridArray[x, z] = createGridObject(x, z);
-                
+
                 // Debug
-                Debug.DrawLine(GetWorldPosition(x, z), GetWorldPosition(x, z + 1), Color.green, 100f);
-                Debug.DrawLine(GetWorldPosition(x, z), GetWorldPosition(x + 1, z), Color.green, 100f);
-                
+                //Debug.DrawLine(GetWorldPosition(x, z) - new Vector3(cellSize / 2, 0f, cellSize / 2), GetWorldPosition(x, z + 1) - new Vector3(cellSize / 2, 0f, cellSize / 2), Color.green, 100f);
+                //Debug.DrawLine(GetWorldPosition(x, z) - new Vector3(cellSize / 2, 0f, cellSize / 2), GetWorldPosition(x + 1, z) - new Vector3(cellSize / 2, 0f, cellSize / 2), Color.green, 100f);
+
                 //var textObj = new GameObject(x.ToString() + z.ToString());
                 //textObj.AddComponent<TextMesh>().text = gridArray[x, z].ToString();
                 //textObj.transform.parent = GameObject.FindGameObjectWithTag("TextObjs").transform;
-                //textObj.transform.position = GetWorldPosition(x, z) + new Vector3(cellSize / 2, 0f, cellSize / 2);
+                //textObj.transform.position = GetWorldPosition(x, z);
                 //textObj.GetComponent<TextMesh>().fontSize = 20;
                 //textObj.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
                 //textObj.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
@@ -49,11 +49,11 @@ public class Grid<TGridObject>
             }
         }
 
-        OnGridObjectChanged += (object sender, OnGridObjectChangedEventArgs eventArgs) => {
-            //var textMesh = textObjs[eventArgs.x, eventArgs.z].GetComponent<TextMesh>();
-            //textMesh.text = gridArray[eventArgs.x, eventArgs.z].ToString();
-            //textMesh.color = Color.red;
-        };
+        //OnGridObjectChanged += (object sender, OnGridObjectChangedEventArgs eventArgs) => {
+        //    var textMesh = textObjs[eventArgs.x, eventArgs.z].GetComponent<TextMesh>();
+        //    textMesh.text = gridArray[eventArgs.x, eventArgs.z].ToString();
+        //    textMesh.color = Color.red;
+        //};
     }
 
     public int GetWidth()
@@ -80,7 +80,7 @@ public class Grid<TGridObject>
 
     public Vector3 GetWorldPosition(int x, int z)
     {
-        return (new Vector3(x, 0f, z) * cellSize) + originPos;
+        return (new Vector3(x, 0f, z) * cellSize) + originPos + new Vector3(cellSize/2, 0f, cellSize/2);
     }
 
     public void SetValue(int x, int z, TGridObject value)
